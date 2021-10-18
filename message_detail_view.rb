@@ -50,7 +50,7 @@ Plugin.create(:message_detail_view) do
 
   message_fragment :body, "body" do
     set_icon Skin[:message]
-    container = Gtk::HBox.new
+    container = Gtk::Box.new(:horizontal)
     textview = Gtk::IntelligentTextview.new(model.description, { 'font' => :mumble_basic_font })
     textview.hexpand = true
     textview.style_generator = get_style_provider
