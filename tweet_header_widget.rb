@@ -13,12 +13,12 @@ module Plugin::MessageDetailView
       super(*args)
       ssc_atonce(:visibility_notify_event, &widget_style_setter)
       add(Gtk::Box.new(:vertical, 0).
-           closeup(Gtk::Box.new(:horizontal, 0).
-                     closeup(icon(model.user).top).
-                     closeup(Gtk::Box.new(:vertical, 0).
-                              closeup(idname(model.user).left).
-                              closeup(Gtk::Label.new(model.user[:name]).left))).
-           closeup(post_date(model, intent_token).right))
+           pack_start(Gtk::Box.new(:horizontal, 0).
+                     pack_start(icon(model.user).set_valign(:start), expand: false).
+                     pack_start(Gtk::Box.new(:vertical, 0).
+                              pack_start(idname(model.user).set_halign(:start), expand: false).
+                              pack_start(Gtk::Label.new(model.user[:name]).set_halign(:start), expand: false), expand: false).
+           pack_start(post_date(model, intent_token).set_halign(:end)), expand: false))
     end
 
     private

@@ -55,10 +55,10 @@ Plugin.create(:message_detail_view) do
     textview.hexpand = true
     textview.style_generator = get_style_provider
     textview.bg_modifier
-    vscrollbar = Gtk::VScrollbar.new
-    textview.set_scroll_adjustment(nil, vscrollbar.adjustment)
+    vscrollbar = Gtk::Scrollbar.new(:vertical)
+    textview.set_vadjustment(vscrollbar.adjustment)
     container.add textview
-    container.closeup vscrollbar
+    container.pack_start(vscrollbar, expand: false)
     nativewidget container
   end
 
