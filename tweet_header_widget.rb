@@ -12,13 +12,13 @@ module Plugin::MessageDetailView
       type_strict model => Diva::Model
       super(*args)
       ssc_atonce(:visibility_notify_event, &widget_style_setter)
-      add(Gtk::VBox.new(false, 0).
-           closeup(Gtk::HBox.new(false, 0).
-                     closeup(icon(model.user).top).
-                     closeup(Gtk::VBox.new(false, 0).
-                              closeup(idname(model.user).left).
-                              closeup(Gtk::Label.new(model.user[:name]).left))).
-           closeup(post_date(model, intent_token).right))
+      add(Gtk::Box.new(:vertical, 0).
+           pack_start(Gtk::Box.new(:horizontal, 0).
+                     pack_start(icon(model.user).set_valign(:start), expand: false).
+                     pack_start(Gtk::Box.new(:vertical, 0).
+                              pack_start(idname(model.user).set_halign(:start), expand: false).
+                              pack_start(Gtk::Label.new(model.user[:name]).set_halign(:start), expand: false), expand: false).
+           pack_start(post_date(model, intent_token).set_halign(:end)), expand: false))
     end
 
     private
@@ -35,7 +35,7 @@ module Plugin::MessageDetailView
       icon = Gtk::EventBox.new.
              add(icon_alignment.add(Gtk::WebIcon.new(user.icon_large, UserConfig[:profile_icon_size], UserConfig[:profile_icon_size])))
       icon.ssc(:button_press_event, &icon_opener(user.icon_large))
-      icon.ssc_atonce(:realize, &cursor_changer(Gdk::Cursor.new(Gdk::Cursor::HAND2)))
+      icon.ssc_atonce(:realize, &cursor_changer(Gdk::Cursor.new(:hand2)))
       icon.ssc_atonce(:visibility_notify_event, &widget_style_setter)
       icon end
 
@@ -44,7 +44,7 @@ module Plugin::MessageDetailView
               add(Gtk::Label.new.
                    set_markup("<b><u><span foreground=\"#0000ff\">#{Pango.escape(user.idname)}</span></u></b>"))
       label.ssc(:button_press_event, &profile_opener(user))
-      label.ssc_atonce(:realize, &cursor_changer(Gdk::Cursor.new(Gdk::Cursor::HAND2)))
+      label.ssc_atonce(:realize, &cursor_changer(Gdk::Cursor.new(:hand2)))
       label.ssc_atonce(:visibility_notify_event, &widget_style_setter)
       label end
 
@@ -52,7 +52,7 @@ module Plugin::MessageDetailView
       label = Gtk::EventBox.new.
                 add(Gtk::Label.new(model.created.strftime('%Y/%m/%d %H:%M:%S')))
       label.ssc(:button_press_event, &(intent_token ? intent_forwarder(intent_token) : message_opener(model)))
-      label.ssc_atonce(:realize, &cursor_changer(Gdk::Cursor.new(Gdk::Cursor::HAND2)))
+      label.ssc_atonce(:realize, &cursor_changer(Gdk::Cursor.new(:hand2)))
       label.ssc_atonce(:visibility_notify_event, &widget_style_setter)
       label end
 
