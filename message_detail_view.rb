@@ -50,15 +50,14 @@ Plugin.create(:message_detail_view) do
 
   message_fragment :body, "body" do
     set_icon Skin[:message]
-    container = Gtk::Box.new(:horizontal)
+    container = Gtk::EventBox.new
     textview = Gtk::IntelligentTextview.new(model.description, { 'font' => :twitter_tweet_basic_font })
-    textview.hexpand = true
     textview.style_generator = get_style_provider
     textview.bg_modifier
-    vscrollbar = Gtk::Scrollbar.new(:vertical)
-    textview.set_vadjustment(vscrollbar.adjustment)
-    container.add textview
-    container.pack_start(vscrollbar, expand: false)
+    scrolledwindow = Gtk::ScrolledWindow.new
+    scrolledwindow.set_policy(:automatic, :automatic)
+    scrolledwindow.add(textview)
+    container.add(scrolledwindow)
     nativewidget container
   end
 
