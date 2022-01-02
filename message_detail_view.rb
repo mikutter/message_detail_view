@@ -68,11 +68,15 @@ Plugin.create(:message_detail_view) do
     Gtk::CssProvider.new.tap do |provider|
       provider.load_from_data(<<~CSS)
         *, *:active, *:disabled, *:hover, *:focus {
-          color: rgb(#{fgcolor[0] / 256}, #{fgcolor[1] / 256}, #{fgcolor[2] / 256});
-          background-color: rgb(#{bgcolor[0] / 256}, #{bgcolor[1] / 256}, #{bgcolor[2] / 256});
+          color: #{css_rgb(fgcolor)};
+          background-color: #{css_rgb(bgcolor)};
         }
       CSS
     end
+  end
+
+  def css_rgb(uccolor)
+    sprintf('#%02x%02x%02x', *uccolor.map { _1 >> 8 & 0xff })
   end
 
 end
