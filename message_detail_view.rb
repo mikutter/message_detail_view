@@ -51,7 +51,7 @@ Plugin.create(:message_detail_view) do
   message_fragment :body, "body" do
     set_icon Skin[:message]
     container = Gtk::Box.new(:horizontal)
-    textview = Gtk::IntelligentTextview.new(model.description, { 'font' => :mumble_basic_font })
+    textview = Gtk::IntelligentTextview.new(model.description, { 'font' => :twitter_tweet_basic_font })
     textview.hexpand = true
     textview.style_generator = get_style_provider
     textview.bg_modifier
@@ -63,14 +63,20 @@ Plugin.create(:message_detail_view) do
   end
 
   def get_style_provider
-    color = UserConfig[:mumble_basic_bg]
+    fgcolor = UserConfig[:twitter_tweet_basic_color]
+    bgcolor = UserConfig[:twitter_tweet_basic_bg]
     Gtk::CssProvider.new.tap do |provider|
       provider.load_from_data(<<~CSS)
         *, *:active, *:disabled, *:hover, *:focus {
-          background-color: rgb(#{color[0] / 256}, #{color[1] / 256}, #{color[2] / 256});
+          color: #{css_rgb(fgcolor)};
+          background-color: #{css_rgb(bgcolor)};
         }
       CSS
     end
+  end
+
+  def css_rgb(uccolor)
+    sprintf('#%02x%02x%02x', *uccolor.map { _1 >> 8 & 0xff })
   end
 
 end
