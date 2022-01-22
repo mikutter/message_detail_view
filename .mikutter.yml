@@ -8,7 +8,7 @@ depends:
   - intent
   - skin
   - twitter
-version: '2.0'
+version: '2.1'
 author: toshi_a
 name: ツイート詳細
 description: 単一のツイートの詳細な内容を表示するタブを追加する
